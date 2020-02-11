@@ -30,32 +30,25 @@ class AddressesRepository {
 
             address.customer = customerId;
             this.CustomerModel.findById(customerId, (err, customer) => {
-
                 if(err || customer == null)
                     reject(err);
                 else {
-                    
-                    this.AddressModel.updateMany(
-                        { customer: customerId }, 
-                        { $set: { isPrimary: !address.isPrimary } },
-                        (err:any) => {
-                    
-                            if(err)
-                                reject(new Error("Transaction failed, try again"));
-                            else {
-                                this.AddressModel.create(
-                                    address,
-                                    (err:any, res:Address) => {
-                                        if(err)
-                                            reject(err);
-                                        else
-                                        {
-                                            resolve(res);
-                                        }
+                    this.setOthersAsNonPrimary(customerId, address, (err) => {
+                        if(err)
+                            reject(err);
+                        else 
+                            this.AddressModel.create(
+                                address,
+                                (err:any, res:Address) => {
+                                    if(err)
+                                        reject(err);
+                                    else
+                                    {
+                                        resolve(res);
                                     }
-                                );
-                            }
-                        });
+                                }
+                            );
+                    });
                 }
             });
         });
@@ -78,6 +71,37 @@ class AddressesRepository {
                     })
             })
         });
+    }
+
+    public update(customerId:String, addressId:String, update:Address): Promise<Address> {
+
+        return new Promise<Address>((resolve, reject) => {
+
+            this.setOthersAsNonPrimary(customerId, update, (err) => {
+                if(err)
+                    reject(err);
+                else
+                    this.AddressModel.findOneAndUpdate(
+                        {_id: addressId, customer: customerId}, 
+                        update, 
+                        (err, res) => {
+                            if(err)
+                                reject(err);
+                            else
+                                resolve(update);
+                        });
+            })
+        });
+    }
+
+    private setOthersAsNonPrimary(customerId: String, address:Address, callback:(err:any) => void) {
+        if(address.isPrimary)
+            this.AddressModel.updateMany(
+                { customer: customerId }, 
+                { $set: { isPrimary: false } },
+                callback);
+        else 
+            callback(undefined);
     }
 }
 

@@ -1,13 +1,13 @@
 const Config = {
-    "port": 8081,
+    "port": 8080,
     "environment": "dev",
     "mail": {
         "sender": {
-            "user": "mail@gmail.com",
-            "password": "pass"
+            "user": "romulo.rossi@hub2b.com.br",
+            "password": "iv45w63z"
         },
         "destination": {
-            "address": "mail@gmail.com"
+            "address": "romulomrossi2@gmail.com"
         }
     },
     "mongo":{

@@ -12,42 +12,36 @@ export default class Address {
     })
     customer!: String;
     @prop({
-        required: true, 
         type:String
     })
     zipCode!: String;
     @prop({
-        required: true, 
         type:String
-    })    state!: String;
+    })    
+    state!: String;
+    @prop()
     city!: String;
     @prop({
-        required: true, 
         type: String
     })
     neighborhood!: String;
     @prop({
-        required: true, 
         type:String
     })
     street!: String;
     @prop({
-        required: true, 
         type:String
     })
     additionalInfo!: String;
     @prop({
-        required: true, 
         type: String
     })
     number!: String;
     @prop({
-        required: true, 
         type:Boolean
     })
     isPrimary!: Boolean;
     @prop({
-        required: true, 
         type: String
     })
     type!: String;

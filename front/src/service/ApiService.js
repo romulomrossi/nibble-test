@@ -1,29 +1,47 @@
 import axios from 'axios';
 
-const USER_API_BASE_URL = 'http://192.168.56.1:8080/customers';
+const CUSTOMERS_URL = 'http://192.168.56.1:8080/customers';
+let getAddressesUrl = customerId => {
+    return CUSTOMERS_URL + '/' + customerId + '/addresses';
+}
 
 class ApiService {
 
-    fetchUsers() {
-        return axios.get(USER_API_BASE_URL);
+    fetchCustomers() {
+        return axios.get(CUSTOMERS_URL);
     }
 
-    fetchUserById(userId) {
-        return axios.get(USER_API_BASE_URL + '/' + userId);
+    fetchCustomerById(id) {
+        return axios.get(CUSTOMERS_URL + '/' + id);
     }
 
-    deleteUser(userId) {
-        return axios.delete(USER_API_BASE_URL + '/' + userId);
+    deleteCustomer(id) {
+        return axios.delete(CUSTOMERS_URL + '/' + id);
     }
 
     addCustomer(customer) {
-        return axios.post(USER_API_BASE_URL, customer);
+        return axios.post(CUSTOMERS_URL, customer);
     }
 
-    editUser(id, customer) {
-        return axios.put(USER_API_BASE_URL + '/' + id, customer);
+    editCustomer(id, address) {
+        return axios.put(CUSTOMERS_URL + '/' + id, address);
     }
 
+    addAddress(customerId, address) {
+        return axios.post(getAddressesUrl(customerId), address);
+    }
+
+    fetchAddresses(customerId) {
+        return axios.get(getAddressesUrl(customerId));
+    }
+
+    deleteAddress(customerId, addressId) {
+        return axios.delete(getAddressesUrl(customerId) + '/' + addressId);
+    }
+
+    editAddress(customerId, addressId, newData) {
+        return axios.put(getAddressesUrl(customerId) + '/' + addressId, newData);
+    }
 }
 
 export default new ApiService();

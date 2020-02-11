@@ -1,6 +1,8 @@
 var nodemailer = require('nodemailer');
 import Config from '../constant/config';
+import { injectable } from 'inversify';
 
+@injectable()
 class MailService {
 
     constructor()
@@ -28,4 +30,4 @@ class MailService {
     }
 }
 
-export default new MailService();
+export default MailService;

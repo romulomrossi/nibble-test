@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import ListCustomersComponent from "./customers/List";
-import AddCustomerComponenet from "./customers/Add";
-import EditCustomerComponent from "./customers/Edit";
+import Customers from "./Customers";
 import React from "react";
+import Box from '@material-ui/core/Box';
 
 const AppRouter = () => {
     return(
         <div style={style}>
             <Router>
                     <Switch>
-                        <Route path="/" exact component={ListCustomersComponent} />
-                        <Route path="/users" component={ListCustomersComponent} />
-                        <Route path="/add-user" component={AddCustomerComponenet} />
-                        <Route path="/edit-user" component={EditCustomerComponent} />
+                        <Route path="/" exact>
+                            <Box m={1}> 
+                                <Customers /> 
+                            </Box>
+                        </Route>
                     </Switch>
             </Router>
         </div>

@@ -8,15 +8,13 @@ const style = {
 }
 const NavBar = () => {
     return (
-        <div>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" style={style}>
-                        Controle de clientes
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </div>
+        <AppBar position="static">
+            <Toolbar>
+                <Typography variant="h6" style={style}>
+                    Controle de clientes
+                </Typography>
+            </Toolbar>
+        </AppBar>
     )
 }
 

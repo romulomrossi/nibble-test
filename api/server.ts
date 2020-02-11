@@ -1,12 +1,11 @@
 import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
-import * as bodyParser from 'body-parser';
+import { Container } from 'inversify';
 import mongoose from 'mongoose';
-const helmet = require('helmet');
+import * as bodyParser from 'body-parser';
 
 // load all injectable entities.
 // the @provide() annotation will then automatically register them.
-import { Container } from 'inversify';
 import TYPES from './constant/types';
 
 import CustomersRepository from './repositories/CustomersRepository';
@@ -16,6 +15,7 @@ import './controllers/AddressController';
 import './controllers/CustomersController';
 
 import Config from './constant/config';
+import MailService from './services/MailService';
 
 let container = new Container();
 
@@ -26,6 +26,10 @@ container.bind<CustomersRepository>(TYPES.CustomersRepository)
 container.bind<AddressesRepository>(TYPES.AddressesRepository)
   .to(AddressesRepository)
   .inSingletonScope();
+
+container.bind<MailService>(TYPES.MailService)
+  .to(MailService)
+  .inTransientScope();
 
 mongoose.connect(Config.mongo.connection, {
   useCreateIndex: true,
@@ -50,12 +54,11 @@ server.setConfig((api) => {
     extended: true
   }));
   api.use(bodyParser.json());
-  api.use(helmet());
 });
 
 let app = server.build();
-app.listen(8080);
-console.log('Server started on port 8080 :)');
+app.listen(Config.port);
+console.log('Server started on port ' + Config.port);
 
 
 

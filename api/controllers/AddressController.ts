@@ -1,4 +1,4 @@
-import { BaseHttpController, controller, httpGet, requestParam, httpPost, requestBody, httpDelete } from 'inversify-express-utils';
+import { BaseHttpController, controller, httpGet, requestParam, httpPost, requestBody, httpDelete, httpPut } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import TYPES from '../constant/types';
 import AddressesRepository from '../repositories/AddressesRepository';
@@ -31,7 +31,7 @@ export default class AddressesController extends BaseHttpController{
     public async create(
         @requestParam('customerId') customerId: string,
         @requestBody() address: Address
-    ){
+    ) {
         try {
             var response = await this.addressRepository.create(customerId, address);
             return this.json(response, 201);
@@ -39,6 +39,16 @@ export default class AddressesController extends BaseHttpController{
         catch(err) {
             return this.json(err, 400);
         }
+    }
+
+    @httpPut('/:addressId')
+    public async update(
+        @requestParam('customerId') customerId: String,
+        @requestParam('addressId') addressId: String,
+        @requestBody() update: Address ) 
+    {
+        var response = await this.addressRepository.update(customerId, addressId, update);
+        return this.json(update, 200);
     }
 
     @httpDelete('/:addressId')

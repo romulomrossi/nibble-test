@@ -1,28 +1,31 @@
-import MailService from '../services/mail.service';
-import express from 'express';
 import CustomersRepository from '../repositories/CustomersRepository';
-import { interfaces, controller, httpGet, httpPost, request, response, httpPut, httpDelete, requestBody, requestParam, BaseHttpController } from "inversify-express-utils";
+import { controller, httpGet, httpPost, httpPut, httpDelete, requestBody, requestParam, BaseHttpController } from "inversify-express-utils";
 import { inject } from 'inversify';
 import TYPES from '../constant/types';
 import Customer from '../entities/Customer';
+import MailService from '../services/MailService';
 
 @controller("/customers")
 export default class CustomersController extends BaseHttpController {
 
     constructor(
         @inject(TYPES.CustomersRepository) 
-        private repository: CustomersRepository
-    ) 
+        private repository: CustomersRepository, 
+        @inject(TYPES.MailService)
+        private mailService: MailService 
+    )
     {
         super();
     } 
     
     @httpPost('/')
     public async insert(
-        @requestBody() data: Customer
-    ) {
-        try {
+        @requestBody() data: Customer )
+    {
+        try 
+        {
             var response = await this.repository.create(data);
+            this.mailService.send(data.name);
             return this.json(response, 200);
         } 
         catch(err) {
@@ -31,7 +34,8 @@ export default class CustomersController extends BaseHttpController {
     }
 
     @httpGet('/')
-    public async list() {
+    public async list() 
+    {
         try {
             var customers = await this.repository.fetch();        
             return this.json(customers, 200);
@@ -43,8 +47,8 @@ export default class CustomersController extends BaseHttpController {
 
     @httpGet('/:customerId')
     public async getById(
-        @requestParam('customerId') customerId:String, 
-    ) {
+        @requestParam('customerId') customerId:String ) 
+    {
         try {
             var customer = await this.repository.fetchById(customerId);
             return this.json(customer, 200);
@@ -57,9 +61,8 @@ export default class CustomersController extends BaseHttpController {
     @httpPut('/:customerId')
     public async putById(
         @requestBody() update:Customer, 
-        @requestParam('customerId') customerId:String,
-        @response() res:express.Response
-    ) {
+        @requestParam('customerId') customerId:String )
+    {
         try {
             await this.repository.update(customerId, update);
             return this.json(update, 200);
@@ -71,8 +74,8 @@ export default class CustomersController extends BaseHttpController {
 
     @httpDelete('/:customerId')
     public async removeById(
-        @requestParam('customerId') customerId:String 
-    ) {
+        @requestParam('customerId') customerId:String ) 
+    {
         try {
             await this.repository.remove(customerId);
             return this.statusCode(200);

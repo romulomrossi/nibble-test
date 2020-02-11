@@ -2,12 +2,12 @@ import { prop } from '@typegoose/typegoose';
 
 export default class Customer {
 
-    @prop({ required: true })
+    @prop()
     name!: String;
-    @prop({ required: true, minlength: 13, maxlength: 13 })
+    @prop()
     document!: String;
-    @prop({ required: true })
+    @prop()
     email!: String;
-    @prop({required: false})
+    @prop()
     phone!: String;
 }
