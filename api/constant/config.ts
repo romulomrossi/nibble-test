@@ -3,15 +3,15 @@ const Config = {
     "environment": "dev",
     "mail": {
         "sender": {
-            "user": "romulomrossi2@gmail.com",
-            "password": "iv45w63zR"
+            "user": "some@mail.com",
+            "password": "password"
         },
         "destination": {
-            "address": "romulomrossi2@gmail.com"
+            "address": "some@mail.com"
         }
     },
     "mongo":{
-        "connection": "mongodb://product-updates-mongodb.dev-databases:27017/nibble-app"
+        "connection": "mongodb://localhost:27017/nibble-app"
     }
 }
 
