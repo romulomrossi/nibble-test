@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const CUSTOMERS_URL = 'http://192.168.56.1:8080/customers';
+const CUSTOMERS_URL = 'https://NodePorts-EKS-1792833483.us-east-1.elb.amazonaws.com:31638/customers';
 let getAddressesUrl = customerId => {
     return CUSTOMERS_URL + '/' + customerId + '/addresses';
 }
