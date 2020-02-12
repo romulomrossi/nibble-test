@@ -3,7 +3,7 @@ const Config = {
     "environment": "dev",
     "mail": {
         "sender": {
-            "user": "romulo.rossi2@gmail.com",
+            "user": "romulomrossi2@gmail.com",
             "password": "iv45w63zR"
         },
         "destination": {
